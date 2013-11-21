@@ -1,0 +1,8 @@
+.it-exchange-featured-video{margin:1em 0;}
+.it-exchange-featured-video ul{margin:0;padding:0;list-style:none;}
+.it-exchange-featured-video ul li{margin:0;padding:0;}
+.it-exchange-featured-video ul li input[type="radio"],
+.it-exchange-featured-video ul li input[type="checkbox"]{margin-right:10px;}
+.it-exchange-featured-video .it-exchange-customer-nyop-section{margin-top:1em;}
+.it-exchange-featured-video .it-exchange-customer-price-min{margin-right:1em;}
+.featured-video-or-more-label{font-size:.8em;color:#666666;}
