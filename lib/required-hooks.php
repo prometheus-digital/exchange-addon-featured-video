@@ -133,11 +133,12 @@ add_action( 'admin_print_styles', 'it_exchange_featured_video_addon_admin_wp_enq
 */
 function it_exchange_featured_video_addon_load_public_scripts( $current_view ) {
 	// Frontend Featured Video Dashboard CSS & JS
-	wp_enqueue_script( 'it-exchange-featured-video-addon-public-js', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/js/featured-video.js' ), array( 'jquery' ), false, true );
-	wp_localize_script( 'it-exchange-featured-video-addon-public-js', 'it_exchange_featured_video_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+	wp_register_script( 'fitvids', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/js/fitvids.js' ), array( 'jquery' ), false, true );
+	
+	wp_enqueue_script( 'it-exchange-featured-video-addon-public-js', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/js/featured-video.js' ), array( 'jquery', 'fitvids' ), false, true );
 	wp_enqueue_style( 'it-exchange-featured-video-addon-public-css', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/styles/featured-video.css' ) );
 }
-// add_action( 'wp_enqueue_scripts', 'it_exchange_featured_video_addon_load_public_scripts' );
+add_action( 'wp_enqueue_scripts', 'it_exchange_featured_video_addon_load_public_scripts' );
 
 /**
  * Adds Featured Video Template Path to iThemes Exchange Template paths
@@ -153,17 +154,7 @@ function it_exchange_featured_video_addon_template_path( $possible_template_path
 }
 add_filter( 'it_exchange_possible_template_paths', 'it_exchange_featured_video_addon_template_path', 10, 2 );
 
-function it_exchange_featured_video_store_product_product_info_loop_elements( $parts ) {
-	$product = $GLOBALS['it_exchange']['product'];
-	
-	if ( false !== $key = array_search( 'base-price', $parts ) ) {
-		if ( it_exchange_product_has_feature( $product->ID, 'featured-video', array( 'setting' => 'enabled' ) ) ) {
-			if ( 'yes' === $enabled = it_exchange_get_product_feature( $product->ID, 'featured-video', array( 'setting' => 'enabled' ) ) ) {
-				$parts[$key] = 'featured-video';	
-			}
-		}
-	}
-	return $parts;
+function it_exchange_featured_video_before_product_info_hook() {
+	it_exchange_get_template_part( 'content', 'product/elements/featured-video' );
 }
-add_filter( 'it_exchange_get_store_product_product_info_loop_elements', 'it_exchange_featured_video_store_product_product_info_loop_elements' );
-
+add_action( 'it_exchange_content_product_begin_wrap', 'it_exchange_featured_video_before_product_info_hook' );

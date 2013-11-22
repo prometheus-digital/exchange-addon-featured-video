@@ -77,95 +77,32 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 			$defaults   = array(
 				'before'      => '',
 				'after'       => '',
-				'nyop-label'  => $addon_settings['featured-video-nyop-label'],
-				'output-type' => $addon_settings['featured-video-output-type'],
 			);
+			
 			$options = ITUtility::merge_defaults( $options, $defaults );
-
-			$hidden = '';
+			
+			$video_host = '';
 			$result = '';
 			
-			$price_options = it_exchange_get_product_feature( $this->product->ID, 'featured-video', array( 'setting' => 'pricing-options' ) );
-			//nyop = Name Your Own Price
-			$nyop_enabled = it_exchange_get_product_feature( $this->product->ID, 'featured-video', array( 'setting' => 'nyop_enabled' ) );
-			$nyop_min = it_exchange_get_product_feature( $this->product->ID, 'featured-video', array( 'setting' => 'nyop_min' ) );
-			$nyop_max = it_exchange_get_product_feature( $this->product->ID, 'featured-video', array( 'setting' => 'nyop_max' ) );
+			$product_featured_video = it_exchange_get_product_feature( $this->product->ID, 'featured-video' );
 		
-			$result .= $options['before'];
-				
-			if ( !empty( $price_options ) ) {
-				
-				if ( 'no' === $nyop_enabled && 1 === count( $price_options ) ) {
-					
-					//Don't display anything, just pretend like the normal base-price is the setting
-					//even though they selected featured-video with only one option!
-					
+			if ( ! empty( $product_featured_video ) ) {
+				$video_host = parse_url( $product_featured_video );
+				$site_host  = parse_url( get_bloginfo( 'url' ) );
+			}
+			
+			if ( ! empty( $video_host ) ) {
+				if ( $video_host['host'] == $site_host['host'] ) {
+					echo '<div class="featured-video-wrapper featured-video-uploaded">';
+						echo do_shortcode( '[video width="1600" height="900" src="' . $product_featured_video . '"][/video]' );
+					echo '</div>';
 				} else {
-						
-					switch ( $options['output-type'] ) {
-					
-						case 'select':
-							$result .= '<select class="it-exchange-featured-video-base-price-selector" name="it_exchange_featured_video_base_price_selector">';
-							foreach( $price_options as $price_option ) {
-								$fprice = it_exchange_format_price( it_exchange_convert_from_database_number( $price_option['price'] ) );
-								$result .= '<option data-price="' . $fprice . '" value="' . $price_option['price'] . '" ' . selected( 'checked', $price_option['default'], false ) . ' >' . $fprice;
-								if ( !empty( $price_option['label'] ) )
-									$result .= ' - ' . $price_option['label'];
-								
-								$result .= '</option>';
-							}
-							if ( 'yes' === $nyop_enabled ) {
-								$result .= '<option value="other">' . $options['nyop-label'] . '</option>';
-								$hidden = 'it-exchange-hidden';
-							}
-							$result .= '</select>';
-							break;
-	
-						case 'radio':
-						default:
-							$result .= '<ul>';
-							foreach( $price_options as $price_option ) {
-								$fprice = it_exchange_format_price( it_exchange_convert_from_database_number( $price_option['price'] ) );
-								$result .= '<li><input id="it-exchange-featured-video-' . $fprice . '" class="it-exchange-featured-video-base-price-selector" type="radio" name="it_exchange_featured_video_base_price_selector" data-price="' . $fprice . '" value="' . $price_option['price'] . '" ' . checked( 'checked', $price_option['default'], false ) . ' /><label for="it-exchange-featured-video-' . $fprice . '">' . $fprice;
-								if ( !empty( $price_option['label'] ) )
-									$result .= ' - ' . $price_option['label'];
-								$result .= '</label>';
-								$result .= '</li>';
-							}
-							if ( 'yes' === $nyop_enabled ) {
-								$result .= '<li class="it-exchange-nyop-option"><input id="it-exchange-featured-video-nyop" class="it-exchange-featured-video-base-price-selector" type="radio" name="it_exchange_featured_video_base_price_selector" value="other" /><label for="it-exchange-featured-video-nyop">' . $options['nyop-label'] . '</label></li>';
-								$hidden = 'it-exchange-hidden';
-							}
-							$result .= '</ul>';
-							break;
-						
-					}
-				
+					echo '<div class="featured-video-wrapper featured-video-embeded">';
+						echo wp_oembed_get( $product_featured_video );
+					echo '</div>';
 				}
-			
 			}
 			
-			if ( 'yes' === $nyop_enabled ) {
-				$result .= '<div class="it-exchange-customer-nyop-section">';
-				$result .= '<input class="it-exchange-featured-video-base-price-nyop-input ' . $hidden . '" type="text" name="it_exchange_featured_video_base_price_selector" value="" />';
-				if ( empty( $price_options ) )
-					$result .= ' ' . $options['nyop-label'];
-					
-				$result .= '<p class="it-exchange-featured-video-base-price-nyop-description ' . $hidden . '">';
-				if ( !empty( $nyop_min ) && 0 < $nyop_min )
-					$result .= '<span class="it-exchange-customer-price-min"><small>' . sprintf( __( 'Min: %s', 'LION' ), it_exchange_format_price( it_exchange_convert_from_database_number( $nyop_min ) ) ) . '</small></span>';
-					
-				if ( !empty( $nyop_max ) && 0 < $nyop_max )
-					$result .= '<span class="it-exchange-customer-price-max"><small>' . sprintf( __( 'Max: %s', 'LION' ), it_exchange_format_price( it_exchange_convert_from_database_number( $nyop_max ) ) ) . '</small></span>';
-				$result .= '</p>';
-				$result .= '</div>';
-			}
-			
-			global $post;
-			$result .= '<input type="hidden" class="it-exchange-featured-video-product-id" name="it-exchange-featured-video-product-id" value="' . $post->ID . '">';
-
-			$result .= $options['after'];
-
 			return $result;
 		}
 

@@ -14,6 +14,9 @@
  * in your theme.
 */
 ?>
-<?php do_action( 'it_exchange_content_store_before_featured_video_price_element' ); ?>
-<span class="it-exchange-base-price"><?php it_exchange( 'featured-video', 'base-price', array( 'format' => 'text' ) ); ?></span>
-<?php do_action( 'it_exchange_content_store_after_featured_video_price_element' ); ?>
+
+<?php do_action( 'it_exchange_content_product_before_featured_video_element' ); ?>
+<div class="it-exchange-product-featured-video">
+	<?php it_exchange( 'featured-video', 'featured-video' ); ?>
+</div>
+<?php do_action( 'it_exchange_content_product_after_featured_video_element' ); ?>
