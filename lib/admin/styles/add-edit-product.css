@@ -1,4 +1,4 @@
 #it-exchange-product-featured-video .featured-video-insert{position:relative;}
-#it-exchange-product-featured-video input[type="url"]{width:100%;padding:8px;line-height:1.5;}
+#it-exchange-product-featured-video input[type="url"]{width:100%;padding:8px 63px 8px 8px;line-height:1.5;}
 #it-exchange-product-featured-video .it-exchange-featured-video-upload{position:absolute;top:11px;right:10px;background:#FFF;box-shadow:#FFF -12px 0 5px 0px,#FFF 4px 0 5px 0px;text-decoration:none;}
 #it-exchange-product-featured-video .featured-video-placeholder{margin:-1px -1px 0 1px !important;}

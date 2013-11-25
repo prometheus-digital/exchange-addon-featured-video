@@ -110,33 +110,27 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 		// Set the value of the feature for this product
 		$product_featured_video = it_exchange_get_product_feature( $product->ID, 'featured-video' );
 		
-		$video_host = '';
-		
-		if ( ! empty( $product_featured_video ) ) {
-			$video_host = parse_url( $product_featured_video );
-			$site_host  = parse_url( get_bloginfo( 'url' ) );
-		}
+		$shortcode_video = preg_replace( '/width="(.*?)"/i','width="400"', $product_featured_video );
+		$shortcode_video = preg_replace( '/height="(.*?)"/i','height="225"', $shortcode_video );
 		
 		// Echo the form field
 		do_action( 'it_exchange_before_print_metabox_featured_video', $product );
 		?>
-			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?></label>
-			<div class="featured-video-insert" data-current="<?php echo $product_featured_video; ?>">
-				<input type="url" placeholder="http://" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo $product_featured_video; ?>" tabindex="4" />
+			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Allowed uploaded types: mp4, m4v, webm, ogv, wmv, flv">i</span></label>
+			<div class="featured-video-insert" data-current="<?php echo esc_attr( $product_featured_video ); ?>">
+				<input type="url" placeholder="http://" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo esc_attr( $product_featured_video ); ?>" tabindex="4" />
 				<a href class="it-exchange-featured-video-upload"><?php _e( 'Upload', 'LION' ) ?></a>
 			</div>
 			<div class="featured-video-placeholder">
 				<?php
-					if ( ! empty( $video_host ) ) {
-						if ( $video_host['host'] == $site_host['host'] ) {
-							echo '<div class="featured-video-wrapper featured-video-uploaded">';
-								echo do_shortcode( '[video width="400" height="225" src="' . $product_featured_video . '"][/video]' );
-							echo '</div>';
-						} else {
-							echo '<div class="featured-video-wrapper featured-video-embeded">';
-								echo wp_oembed_get( $product_featured_video );
-							echo '</div>';
-						}
+					if ( preg_match( '/\[video/', $product_featured_video ) ) {
+						echo '<div class="featured-video-wrapper featured-video-uploaded">';
+							echo do_shortcode( $shortcode_video );
+						echo '</div>';
+					} else {
+						echo '<div class="featured-video-wrapper featured-video-embeded">';
+							echo wp_oembed_get( $product_featured_video );
+						echo '</div>';
 					}
 				?>
 			</div>

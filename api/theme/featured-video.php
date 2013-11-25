@@ -81,26 +81,18 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 			
 			$options = ITUtility::merge_defaults( $options, $defaults );
 			
-			$video_host = '';
 			$result = '';
 			
 			$product_featured_video = it_exchange_get_product_feature( $this->product->ID, 'featured-video' );
-		
-			if ( ! empty( $product_featured_video ) ) {
-				$video_host = parse_url( $product_featured_video );
-				$site_host  = parse_url( get_bloginfo( 'url' ) );
-			}
 			
-			if ( ! empty( $video_host ) ) {
-				if ( $video_host['host'] == $site_host['host'] ) {
-					echo '<div class="featured-video-wrapper featured-video-uploaded">';
-						echo do_shortcode( '[video width="1600" height="900" src="' . $product_featured_video . '"][/video]' );
-					echo '</div>';
-				} else {
-					echo '<div class="featured-video-wrapper featured-video-embeded">';
-						echo wp_oembed_get( $product_featured_video );
-					echo '</div>';
-				}
+			if ( preg_match( '/\[video/', $product_featured_video ) ) {
+				echo '<div class="featured-video-wrapper featured-video-uploaded">';
+					echo do_shortcode( $product_featured_video );
+				echo '</div>';
+			} else {
+				echo '<div class="featured-video-wrapper featured-video-embeded">';
+					echo wp_oembed_get( $product_featured_video );
+				echo '</div>';
 			}
 			
 			return $result;
