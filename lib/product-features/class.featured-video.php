@@ -118,7 +118,7 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 		?>
 			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Allowed uploaded types: mp4, m4v, webm, ogv, wmv, flv">i</span></label>
 			<div class="featured-video-insert" data-current="<?php echo esc_attr( $product_featured_video ); ?>">
-				<input type="url" placeholder="http://" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo esc_attr( $product_featured_video ); ?>" tabindex="4" />
+				<input type="url" placeholder="http://www.youtube.com/watch?v=GkOF6_3OqQ0" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo esc_attr( $product_featured_video ); ?>" tabindex="4" />
 				<a href class="it-exchange-featured-video-upload"><?php _e( 'Upload', 'LION' ) ?></a>
 			</div>
 			<div class="featured-video-placeholder">
