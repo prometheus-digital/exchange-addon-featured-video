@@ -123,14 +123,16 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 			</div>
 			<div class="featured-video-placeholder">
 				<?php
-					if ( preg_match( '/\[video/', $product_featured_video ) ) {
-						echo '<div class="featured-video-wrapper featured-video-uploaded">';
-							echo do_shortcode( $shortcode_video );
-						echo '</div>';
-					} else {
-						echo '<div class="featured-video-wrapper featured-video-embeded">';
-							echo wp_oembed_get( $product_featured_video );
-						echo '</div>';
+					if ( isset( $product_featured_video ) && ! empty( $product_featured_video ) ) {
+						if ( preg_match( '/\[video/', $product_featured_video ) ) {
+							echo '<div class="featured-video-wrapper featured-video-uploaded">';
+								echo do_shortcode( $shortcode_video );
+							echo '</div>';
+						} else {
+							echo '<div class="featured-video-wrapper featured-video-embeded">';
+								echo wp_oembed_get( $product_featured_video );
+							echo '</div>';
+						}
 					}
 				?>
 			</div>

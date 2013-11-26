@@ -2,7 +2,7 @@
 /*
  * Plugin Name: iThemes Exchange - Featured Video Add-on
  * Version: 0.0.1
- * Description: Adds the featured video to iThemes Exchange
+ * Description: Adds the featured video to iThemes Exchange products.
  * Plugin URI: http://ithemes.com/exchange/featured-video/
  * Author: iThemes
  * Author URI: http://ithemes.com
@@ -26,7 +26,7 @@
 function it_exchange_register_featured_video_addon() {
 	$options = array(
 		'name'              => __( 'Featured Video', 'LION' ),
-		'description'       => __( 'Allows store owners to add a featured video to their site.', 'LION' ),
+		'description'       => __( 'Allows store owners to embed or upload a featured video to their products.', 'LION' ),
 		'author'            => 'iThemes',
 		'author_url'        => 'http://ithemes.com/exchange/featured-video/',
 		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/featuredvideo50px.png' ),
