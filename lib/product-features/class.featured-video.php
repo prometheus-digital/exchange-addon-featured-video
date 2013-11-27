@@ -106,7 +106,7 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 	function print_metabox( $post ) {
 		// Grab the iThemes Exchange Product object from the WP $post object
 		$product = it_exchange_get_product( $post );
-
+		
 		// Set the value of the feature for this product
 		$product_featured_video = it_exchange_get_product_feature( $product->ID, 'featured-video' );
 		
@@ -116,7 +116,7 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 		// Echo the form field
 		do_action( 'it_exchange_before_print_metabox_featured_video', $product );
 		?>
-			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Allowed uploaded types: mp4, m4v, webm, ogv, wmv, flv">i</span></label>
+			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Uploaded videos will use the WordPress shortcode. &mdash; [video mp4='source.mp4'][video]">i</span></label>
 			<div class="featured-video-insert" data-current="<?php echo esc_attr( $product_featured_video ); ?>">
 				<input type="url" placeholder="http://www.youtube.com/watch?v=GkOF6_3OqQ0" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo esc_attr( $product_featured_video ); ?>" tabindex="4" />
 				<a href class="it-exchange-featured-video-upload"><?php _e( 'Upload', 'LION' ) ?></a>
