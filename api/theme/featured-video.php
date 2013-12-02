@@ -86,7 +86,7 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 			$product_featured_video = it_exchange_get_product_feature( $this->product->ID, 'featured-video' );
 			
 			if ( isset( $product_featured_video ) && ! empty( $product_featured_video ) ) {
-				if ( preg_match( '/\[video/', $product_featured_video ) ) {
+				if ( strpos( $product_featured_video, '[video' ) !== false ) {
 					echo '<div class="featured-video-wrapper featured-video-uploaded">';
 						echo do_shortcode( $product_featured_video );
 					echo '</div>';
