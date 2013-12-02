@@ -15,13 +15,13 @@
 function it_exchange_featured_video_addon_show_version_nag() {
 	if ( $GLOBALS['it_exchange']['version'] < '1.5.0' ) {
 		?>
-		<div id="it-exchange-add-on-min-version-nag" class="it-exchange-nag">
+		<div class="it-exchange-nag it-exchange-add-on-min-version-nag">
 			<?php printf( __( 'The Featured Video add-on requires iThemes Exchange version 1.5.0 or greater. %sPlease upgrade Exchange%s.', 'LION' ), '<a href="' . admin_url( 'update-core.php' ) . '">', '</a>' ); ?>
 		</div>
 		<script type="text/javascript">
 			jQuery( document ).ready( function() {
 				if ( jQuery( '.wrap > h2' ).length == '1' ) {
-					jQuery("#it-exchange-add-on-min-version-nag").insertAfter('.wrap > h2').addClass( 'after-h2' );
+					jQuery(".it-exchange-add-on-min-version-nag").insertAfter('.wrap > h2').addClass( 'after-h2' );
 				}
 			});
 		</script>
@@ -79,7 +79,7 @@ function it_exchange_featured_video_addon_admin_wp_enqueue_scripts( $hook_suffix
 	}
 	
 	if ( isset( $post_type ) && 'it_exchange_prod' === $post_type ) {
-		wp_register_script( 'fitvids', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/admin/js/fitvids.js', array( 'jquery') );
+		wp_register_script( 'fitvids', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/admin/js/fitvids.min.js', array( 'jquery') );
 		
 		$deps = array( 'post', 'jquery-ui-sortable', 'jquery-ui-droppable', 'jquery-ui-tabs', 'jquery-ui-tooltip', 'jquery-ui-datepicker', 'autosave', 'fitvids' );
 		wp_enqueue_script( 'it-exchange-featured-video-addon-add-edit-product', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/admin/js/add-edit-product.js', $deps );

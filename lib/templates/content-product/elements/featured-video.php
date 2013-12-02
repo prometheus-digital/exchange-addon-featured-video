@@ -1,7 +1,7 @@
 <?php
 /**
  * Default template for displaying the featured video
- * in place of base price for the store page
+ * on the product page.
  * 
  * @since 1.0.0
  * @version 1.0.0

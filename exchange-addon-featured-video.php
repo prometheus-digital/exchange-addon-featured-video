@@ -31,7 +31,7 @@ function it_exchange_register_featured_video_addon() {
 		'author_url'        => 'http://ithemes.com/exchange/featured-video/',
 		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/featuredvideo50px.png' ),
 		'file'              => dirname( __FILE__ ) . '/init.php',
-		'category'          => 'pricing',
+		'category'          => 'video',
 		'basename'          => plugin_basename( __FILE__ ),
 		'labels'      => array(
 			'singular_name' => __( 'Featured Video', 'LION' ),
