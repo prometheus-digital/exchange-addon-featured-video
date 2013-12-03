@@ -116,7 +116,7 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 		// Echo the form field
 		do_action( 'it_exchange_before_print_metabox_featured_video', $product );
 		?>
-			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Allowed video types are Youtube, Vimeo, Viddler and Flickr. Uploaded videos will use a shortcode. [video mp4='source.mp4'][video]">i</span></label>
+			<label for="featured-video-field"><?php _e( 'Featured Video', 'LION' ); ?><span class="tip" title="Paste your video URL here. Allowed video types are Youtube, Vimeo, Viddler and Flickr. Uploaded videos will use the WordPress shortcode. [video mp4='source.mp4'][/video]">i</span></label>
 			<div class="featured-video-insert" data-current="<?php echo esc_attr( $product_featured_video ); ?>">
 				<input type="text" placeholder="http://www.youtube.com/watch?v=GkOF6_3OqQ0" id="featured-video" name="it-exchange-product-featured-video" value="<?php echo esc_attr( $product_featured_video ); ?>" tabindex="4" />
 				<a href class="it-exchange-featured-video-upload"><?php _e( 'Upload', 'LION' ) ?></a>
