@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: iThemes Exchange - Featured Video Add-on
- * Version: 1.0.6
+ * Version: 1.0.7
  * Description: Adds the featured video to iThemes Exchange products.
  * Plugin URI: http://ithemes.com/exchange/featured-video/
  * Author: iThemes
