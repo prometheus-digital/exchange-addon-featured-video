@@ -6,7 +6,7 @@
 */
 
 class IT_Theme_API_Featured_Video implements IT_Theme_API {
-	
+
 	/**
 	 * API context
 	 * @var string $_context
@@ -24,7 +24,7 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 	);
 
 	/**
-	 * Current product in iThemes Exchange Global
+	 * Current product in ExchangeWP Global
 	 * @var object $product
 	 * @since 1.0.0
 	*/
@@ -54,10 +54,10 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 	}
 
 	/**
-	 * Returns the context. Also helps to confirm we are an iThemes Exchange theme API class
+	 * Returns the context. Also helps to confirm we are an ExchangeWP theme API class
 	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return string
 	*/
 	function get_api_context() {
@@ -75,27 +75,27 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 		// Return boolean if has flag was set
 		if ( $options['supports'] )
 			return it_exchange_product_supports_feature( $this->product->ID, 'featured-video', array( 'setting' => 'enabled' ) );
-			
+
 		// Return boolean if has flag was set
 		if ( $options['has'] )
 			return it_exchange_product_has_feature( $this->product->ID, 'featured-video', array( 'setting' => 'enabled' ) );
 
 		if ( it_exchange_product_supports_feature( $this->product->ID, 'featured-video', array( 'setting' => 'enabled' ) )
 				&& it_exchange_product_has_feature( $this->product->ID, 'featured-video', array( 'setting' => 'enabled' ) ) ) {
-					
+
 			$addon_settings = it_exchange_get_option( 'addon_featured_video' );
-			
+
 			$defaults   = array(
 				'before'      => '',
 				'after'       => '',
 			);
-			
+
 			$options = ITUtility::merge_defaults( $options, $defaults );
-			
+
 			$result = '';
-			
+
 			$product_featured_video = it_exchange_get_product_feature( $this->product->ID, 'featured-video' );
-			
+
 			if ( isset( $product_featured_video ) && ! empty( $product_featured_video ) ) {
 				if ( strpos( $product_featured_video, '[video' ) !== false ) {
 					echo '<div class="featured-video-wrapper featured-video-uploaded">';
@@ -107,7 +107,7 @@ class IT_Theme_API_Featured_Video implements IT_Theme_API {
 					echo '</div>';
 				}
 			}
-			
+
 			return $result;
 		}
 

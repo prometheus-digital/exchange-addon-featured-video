@@ -1,6 +1,6 @@
 <?php
 /**
- * iThemes Exchange Featured Video Add-on
+ * ExchangeWP Featured Video Add-on
  * @package IT_Exchange_Addon_Featured_Video
  * @since 1.0.0
 */
@@ -16,7 +16,7 @@ function it_exchange_featured_video_addon_show_version_nag() {
 	if ( version_compare( $GLOBALS['it_exchange']['version'], '1.5.0', '<' ) ) {
 		?>
 		<div class="it-exchange-nag it-exchange-add-on-min-version-nag">
-			<?php printf( __( 'The Featured Video add-on requires iThemes Exchange version 1.5.0 or greater. %sPlease upgrade Exchange%s.', 'LION' ), '<a href="' . admin_url( 'update-core.php' ) . '">', '</a>' ); ?>
+			<?php printf( __( 'The Featured Video add-on requires ExchangeWP version 1.5.0 or greater. %sPlease upgrade Exchange%s.', 'LION' ), '<a href="' . admin_url( 'update-core.php' ) . '">', '</a>' ); ?>
 		</div>
 		<script type="text/javascript">
 			jQuery( document ).ready( function() {
@@ -31,22 +31,22 @@ function it_exchange_featured_video_addon_show_version_nag() {
 add_action( 'admin_notices', 'it_exchange_featured_video_addon_show_version_nag' );
 
 /**
- * Adds actions to the plugins page for the iThemes Exchange Featured Video plugin
+ * Adds actions to the plugins page for the ExchangeWP Featured Video plugin
  *
  * @since 1.0.0
  *
  * @param array $meta Existing meta
  * @param string $plugin_file the wp plugin slug (path)
  * @param array $plugin_data the data WP harvested from the plugin header
- * @param string $context 
+ * @param string $context
  * @return array
 */
 function it_exchange_featured_video_plugin_row_actions( $actions, $plugin_file, $plugin_data, $context ) {
-	
+
 	$actions['setup_addon'] = '<a href="' . get_admin_url( NULL, 'admin.php?page=it-exchange-addons&add-on-settings=featured-video' ) . '">' . __( 'Setup Add-on', 'LION' ) . '</a>';
-	
+
 	return $actions;
-	
+
 }
 add_filter( 'plugin_action_links_exchange-addon-featured-video/exchange-addon-featured-video.php', 'it_exchange_featured_video_plugin_row_actions', 10, 4 );
 
@@ -60,7 +60,7 @@ add_filter( 'plugin_action_links_exchange-addon-featured-video/exchange-addon-fe
 */
 function it_exchange_featured_video_addon_admin_wp_enqueue_scripts( $hook_suffix ) {
 	global $post;
-	
+
 	if ( isset( $_REQUEST['post_type'] ) ) {
 		$post_type = $_REQUEST['post_type'];
 	} else {
@@ -77,10 +77,10 @@ function it_exchange_featured_video_addon_admin_wp_enqueue_scripts( $hook_suffix
 		if ( isset( $post ) && !empty( $post ) )
 			$post_type = $post->post_type;
 	}
-	
+
 	if ( isset( $post_type ) && 'it_exchange_prod' === $post_type ) {
 		wp_register_script( 'fitvids', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/admin/js/fitvids.min.js', array( 'jquery') );
-		
+
 		$deps = array( 'post', 'jquery-ui-sortable', 'jquery-ui-droppable', 'jquery-ui-tabs', 'jquery-ui-tooltip', 'jquery-ui-datepicker', 'autosave', 'fitvids' );
 		wp_enqueue_script( 'it-exchange-featured-video-addon-add-edit-product', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/admin/js/add-edit-product.js', $deps );
 	}
@@ -134,17 +134,17 @@ add_action( 'admin_print_styles', 'it_exchange_featured_video_addon_admin_wp_enq
 function it_exchange_featured_video_addon_load_public_scripts( $current_view ) {
 	// Frontend Featured Video Dashboard CSS & JS
 	wp_register_script( 'fitvids', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/js/fitvids.js' ), array( 'jquery' ), false, true );
-	
+
 	wp_enqueue_script( 'it-exchange-featured-video-addon-public-js', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/js/featured-video.js' ), array( 'jquery', 'fitvids' ), false, true );
 	wp_enqueue_style( 'it-exchange-featured-video-addon-public-css', ITUtility::get_url_from_file( dirname( __FILE__ ) . '/assets/styles/featured-video.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'it_exchange_featured_video_addon_load_public_scripts' );
 
 /**
- * Adds Featured Video Template Path to iThemes Exchange Template paths
+ * Adds Featured Video Template Path to ExchangeWP Template paths
  *
  * @since 1.0.0
- * @param array $possible_template_paths iThemes Exchange existing Template paths array
+ * @param array $possible_template_paths ExchangeWP existing Template paths array
  * @param array $template_names
  * @return array
 */
