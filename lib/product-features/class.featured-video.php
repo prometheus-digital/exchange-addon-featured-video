@@ -63,9 +63,9 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 	 * @return void
 	*/
 	function init_feature_metaboxes() {
-		
+
 		global $post;
-		
+
 		if ( isset( $_REQUEST['post_type'] ) ) {
 			$post_type = $_REQUEST['post_type'];
 		} else {
@@ -82,23 +82,23 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 			if ( isset( $post ) && !empty( $post ) )
 				$post_type = $post->post_type;
 		}
-			
+
 		if ( !empty( $_REQUEST['it-exchange-product-type'] ) )
 			$product_type = $_REQUEST['it-exchange-product-type'];
 		else
 			$product_type = it_exchange_get_product_type( $post );
-		
+
 		if ( !empty( $post_type ) && 'it_exchange_prod' === $post_type ) {
 			if ( !empty( $product_type ) &&  it_exchange_product_type_supports_feature( $product_type, 'featured-video' ) )
 				add_action( 'it_exchange_product_metabox_callback_' . $product_type, array( $this, 'register_metabox' ), 5 );
 		}
-		
+
 	}
 
 	/**
 	 * Registers the feature metabox for a specific product type
 	 *
-	 * Hooked to it_exchange_product_metabox_callback_[product-type] where product type supports the feature 
+	 * Hooked to it_exchange_product_metabox_callback_[product-type] where product type supports the feature
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -114,15 +114,15 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 	 * @return void
 	*/
 	function print_metabox( $post ) {
-		// Grab the iThemes Exchange Product object from the WP $post object
+		// Grab the ExchangeWP Product object from the WP $post object
 		$product = it_exchange_get_product( $post );
-		
+
 		// Set the value of the feature for this product
 		$product_featured_video = it_exchange_get_product_feature( $product->ID, 'featured-video' );
-		
+
 		$shortcode_video = preg_replace( '/width="(.*?)"/i','width="400"', $product_featured_video );
 		$shortcode_video = preg_replace( '/height="(.*?)"/i','height="225"', $shortcode_video );
-		
+
 		// Echo the form field
 		do_action( 'it_exchange_before_print_metabox_featured_video', $product );
 		?>
@@ -234,7 +234,7 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 	/**
 	 * Does the product support this feature?
 	 *
-	 * This is different than if it has the feature, a product can 
+	 * This is different than if it has the feature, a product can
 	 * support a feature but might not have the feature set.
 	 *
 	 * @since 1.0.0
@@ -247,9 +247,9 @@ class IT_Exchange_Addon_Product_Feature_Product_Featured_Video {
 		$product_type = it_exchange_get_product_type( $product_id );
 		if ( ! it_exchange_product_type_supports_feature( $product_type, 'featured-video' ) )
 			return false;
-			
+
 		// Determine if this product has turned on product availability
-		if ( 'no' == it_exchange_get_product_feature( $product_id, 'featured-video', array( 'setting' => 'enabled' ) ) ) 
+		if ( 'no' == it_exchange_get_product_feature( $product_id, 'featured-video', array( 'setting' => 'enabled' ) ) )
 			return false;
 
 		return true;

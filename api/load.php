@@ -1,6 +1,6 @@
 <?php
 /**
- * iThemes Exchange Featured Video Add-on
+ * ExchangeWP Featured Video Add-on
  * load theme API functions
  * @package IT_Exchange_Addon_Featured_Video
  * @since 1.0.0

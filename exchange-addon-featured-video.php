@@ -1,13 +1,13 @@
 <?php
 /*
- * Plugin Name: iThemes Exchange - Featured Video Add-on
- * Version: 1.1.0
- * Description: Adds the featured video to iThemes Exchange products.
- * Plugin URI: http://ithemes.com/exchange/featured-video/
- * Author: iThemes
- * Author URI: http://ithemes.com
- * iThemes Package: exchange-addon-featured-video
- 
+ * Plugin Name: ExchangeWP - Featured Video Add-on
+ * Version: 1.1.1
+ * Description: Adds the featured video to ExchangeWP products.
+ * Plugin URI: https://exchangewp.com/downloads/featured-video/
+ * Author: ExchangeWP
+ * Author URI: https://exchangewp.com
+ * ExchangeWP Package: exchange-addon-featured-video
+
  * Installation:
  * 1. Download and unzip the latest release zip file.
  * 2. If you use the WordPress plugin uploader to install this plugin skip to step 4.
@@ -27,16 +27,16 @@ function it_exchange_register_featured_video_addon() {
 	$options = array(
 		'name'              => __( 'Featured Video', 'LION' ),
 		'description'       => __( 'Allows store owners to embed or upload a featured video to their products.', 'LION' ),
-		'author'            => 'iThemes',
-		'author_url'        => 'http://ithemes.com/exchange/featured-video/',
+		'author'            => 'ExchangeWP',
+		'author_url'        => 'https://exchangewp.com/downloads/featured-video/',
 		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/featuredvideo50px.png' ),
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'video',
 		'basename'          => plugin_basename( __FILE__ ),
+		'settings-callback' => 'it_exchange_featured_video_addon_settings_callback',
 		'labels'      => array(
 			'singular_name' => __( 'Featured Video', 'LION' ),
 		),
-		'settings-callback' => 'it_exchange_featured_video_settings_callback',
 	);
 	it_exchange_register_addon( 'featured-video', $options );
 }
@@ -62,8 +62,38 @@ add_action( 'plugins_loaded', 'it_exchange_featured_video_set_textdomain' );
  * @param object $updater ithemes updater object
  * @return void
 */
-function ithemes_exchange_addon_featured_video_updater_register( $updater ) { 
+function ithemes_exchange_addon_featured_video_updater_register( $updater ) {
 	    $updater->register( 'exchange-addon-featured-video', __FILE__ );
 }
 add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_featured_video_updater_register' );
-require( dirname( __FILE__ ) . '/lib/updater/load.php' );
+// require( dirname( __FILE__ ) . '/lib/updater/load.php' );
+
+if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
+ 	require_once 'EDD_SL_Plugin_Updater.php';
+ }
+
+ function exchange_featured_video_plugin_updater() {
+
+ 	// retrieve our license key from the DB
+ 	// this is going to have to be pulled from a seralized array to get the actual key.
+ 	// $license_key = trim( get_option( 'exchange_featured_video_license_key' ) );
+ 	$exchangewp_featured_video_options = get_option( 'it-storage-exchange_featured_video-addon' );
+ 	$license_key = $exchangewp_featured_video_options['featured_video-license-key'];
+
+ 	// setup the updater
+ 	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
+ 			'version' 		=> '1.1.1', 				// current version number
+ 			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
+ 			'item_name' 	=> 'featured-video', 	  // name of this plugin
+ 			'author' 	  	=> 'ExchangeWP',    // author of this plugin
+ 			'url'       	=> home_url(),
+ 			'wp_override' => true,
+ 			'beta'		  	=> false
+ 		)
+ 	);
+ 	// var_dump($edd_updater);
+ 	// die();
+
+ }
+
+ add_action( 'admin_init', 'exchange_featured_video_plugin_updater', 0 );
