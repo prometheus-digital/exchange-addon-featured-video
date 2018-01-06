@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ExchangeWP - Featured Video Add-on
- * Version: 1.1.1
+ * Version: 1.0.1
  * Description: Adds the featured video to ExchangeWP products.
  * Plugin URI: https://exchangewp.com/downloads/featured-video/
  * Author: ExchangeWP
@@ -33,7 +33,6 @@ function it_exchange_register_featured_video_addon() {
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'video',
 		'basename'          => plugin_basename( __FILE__ ),
-		'settings-callback' => 'it_exchange_featured_video_addon_settings_callback',
 		'labels'      => array(
 			'singular_name' => __( 'Featured Video', 'LION' ),
 		),
@@ -66,33 +65,30 @@ function ithemes_exchange_addon_featured_video_updater_register( $updater ) {
 	    $updater->register( 'exchange-addon-featured-video', __FILE__ );
 }
 add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_featured_video_updater_register' );
-// require( dirname( __FILE__ ) . '/lib/updater/load.php' );
 
-if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
- 	require_once 'EDD_SL_Plugin_Updater.php';
- }
 
  function exchange_featured_video_plugin_updater() {
 
- 	// retrieve our license key from the DB
- 	// this is going to have to be pulled from a seralized array to get the actual key.
- 	// $license_key = trim( get_option( 'exchange_featured_video_license_key' ) );
- 	$exchangewp_featured_video_options = get_option( 'it-storage-exchange_featured_video-addon' );
- 	$license_key = $exchangewp_featured_video_options['featured_video-license-key'];
+	 $license_data = get_transient( 'exchangewp_license_check' );
 
- 	// setup the updater
- 	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
- 			'version' 		=> '1.1.1', 				// current version number
- 			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
- 			'item_name' 	=> 'featured-video', 	  // name of this plugin
- 			'author' 	  	=> 'ExchangeWP',    // author of this plugin
- 			'url'       	=> home_url(),
- 			'wp_override' => true,
- 			'beta'		  	=> false
- 		)
- 	);
- 	// var_dump($edd_updater);
- 	// die();
+ 		if ( $license_data->license == 'valid' ) {
+
+			$exchangewp_license = it_exchange_get_option( 'exchangewp_licenses' );
+			$license = $exchangewp_license['exchangewp_license'];
+			// setup the updater
+			$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
+					'version' 		=> '1.0.1', 				// current version number
+					'license' 		=> $license, 		// license key (used get_option above to retrieve from DB)
+					'item_name' 	=> 'featured-video', 	  // name of this plugin
+					'author' 	  	=> 'ExchangeWP',    // author of this plugin
+					'url'       	=> home_url(),
+					'wp_override' => true,
+					'beta'		  	=> false
+				)
+			);
+			// var_dump($edd_updater);
+			// die();
+		}
 
  }
 
