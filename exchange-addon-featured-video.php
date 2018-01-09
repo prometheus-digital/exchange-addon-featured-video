@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ExchangeWP - Featured Video Add-on
- * Version: 0.0.1
+ * Version: 1.1.3
  * Description: Adds the featured video to ExchangeWP products.
  * Plugin URI: https://exchangewp.com/downloads/featured-video/
  * Author: ExchangeWP
@@ -71,7 +71,7 @@ function exchange_featured_video_plugin_updater() {
 			$license = $exchangewp_license['exchangewp_license'];
 			// setup the updater
 			$edd_updater = new EDD_SL_Plugin_Updater( 'http://exchangewp.local/', __FILE__, array(
-					'version' 		=> '0.0.1', 						// current version number
+					'version' 		=> '1.1.3', 						// current version number
 					'license' 		=> $license, 						// license key (used get_option above to retrieve from DB)
 					'item_id'		 	=> 529,							 	  // name of this plugin
 					'author' 	  	=> 'ExchangeWP',   		  // author of this plugin
