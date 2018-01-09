@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ExchangeWP - Featured Video Add-on
- * Version: 1.0.1
+ * Version: 0.0.1
  * Description: Adds the featured video to ExchangeWP products.
  * Plugin URI: https://exchangewp.com/downloads/featured-video/
  * Author: ExchangeWP
@@ -61,35 +61,28 @@ add_action( 'plugins_loaded', 'it_exchange_featured_video_set_textdomain' );
  * @param object $updater ithemes updater object
  * @return void
 */
-function ithemes_exchange_addon_featured_video_updater_register( $updater ) {
-	    $updater->register( 'exchange-addon-featured-video', __FILE__ );
-}
-add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_featured_video_updater_register' );
+function exchange_featured_video_plugin_updater() {
 
+	$license_data = get_transient( 'exchangewp_license_check' );
 
- function exchange_featured_video_plugin_updater() {
-
-	 $license_data = get_transient( 'exchangewp_license_check' );
-
- 		if ( $license_data->license == 'valid' ) {
+		if ( $license_data->license == 'valid' ) {
 
 			$exchangewp_license = it_exchange_get_option( 'exchangewp_licenses' );
 			$license = $exchangewp_license['exchangewp_license'];
 			// setup the updater
-			$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
-					'version' 		=> '1.0.1', 				// current version number
-					'license' 		=> $license, 		// license key (used get_option above to retrieve from DB)
-					'item_name' 	=> 'featured-video', 	  // name of this plugin
-					'author' 	  	=> 'ExchangeWP',    // author of this plugin
+			$edd_updater = new EDD_SL_Plugin_Updater( 'http://exchangewp.local/', __FILE__, array(
+					'version' 		=> '0.0.1', 						// current version number
+					'license' 		=> $license, 						// license key (used get_option above to retrieve from DB)
+					'item_id'		 	=> 529,							 	  // name of this plugin
+					'author' 	  	=> 'ExchangeWP',   		  // author of this plugin
 					'url'       	=> home_url(),
 					'wp_override' => true,
 					'beta'		  	=> false
 				)
 			);
-			// var_dump($edd_updater);
-			// die();
+
 		}
 
- }
+}
 
  add_action( 'admin_init', 'exchange_featured_video_plugin_updater', 0 );
